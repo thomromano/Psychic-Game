@@ -1,67 +1,71 @@
-"use strict";
+//Letter choices available
+var letterChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-const letterChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-let wins = 0;
-let losses = 0;
-let guesses = 9;
-let guessesRemaining = 9;
-let guessedLetters = [];
-let letterToGuess = null;
-
-let computerSelect = letterChoices[Math.floor(Math.random() * letterChoices.length)];
+//Setting all to zero
+var wins = 0;
+var losses = 0;
+var guesses = 9;
+var guessesLeft = 9;
+var guessedLetters = [];
+var letterToGuess = null;
 
 
 
-const updateGuessesLeft = function() {
-    document.querySelector('#guessRemaining').innerHTML = 'Guesses Remaining: ' + guessesRemaining;
+//Lets the computer select a random letter from the available choices
+var computerGuess = letterChoices[Math.floor(Math.random() * letterChoices.length)];
+
+//Allows the user 9 guesses
+// guesses = guesses || 9
+var updateGuessesLeft = function() {
+  // Here we are grabbing the HTML element and setting it equal to the guessesLeft. (i.e. guessesLeft will get displayed in HTML)
+  document.querySelector('#guessLeft').innerHTML = "Guesses left: " + guessesLeft;
 };
 
-let updateLetterToGuess = function() {
-    this.letterToGuess = this.computerChoices[Math.floor(Math.random() * this.letterChoices.length)];
+var updateLetterToGuess = function() {
+  this.letterToGuess = this.letterChoices[Math.floor(Math.random() * this.letterChoices.length)];
 };
-
-let updateGuessedLetters = function() {
-    document.querySelector('#let').innerHTML = "Guesses So Far: " + guessedLetters.join(', ');
+var updateGuessesSoFar = function() {
+  // Here we take the guesses the user has tried -- then display it as letters separated by commas. 
+  document.querySelector('#let').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
 };
+// Function will be called when we reset everything
+var reset = function() {
+  totalGuesses = 9;
+  guessesLeft = 9;
+  guessedLetters = [];
 
-let reset = function() {
-    totalGuesses = 9;
-    guessesRemaining = 9;
-    guessedLetters = [] ;
-
-    updateLetterToGuess();
-    updateGuessesRemaining();
-    updateGuessedLetters();
+  updateLetterToGuess();
+  updateGuessesLeft();
+  updateGuessesSoFar();
 }
 
 updateLetterToGuess();
-updateGuessesRemaining();
+updateGuessesLeft();
 
-documnet.onkeyup = function(event) {
-    guessesRemaining--;
- let playerChoice = string.fromCharCode(event.keyCode).toLoweCase();
 
- guessedLetters.push(playerChoice);
- updateGuessesRemaining();
- updateGuessedLetters();
+//When key is released it becomes the users guess
+document.onkeyup = function(event) {
+    guessesLeft--;
+  var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
-    if (guessesRemaining > 0){
-        if (playerChoice === letterToGuess){
-            wins++;
-            document.querySelector('#wins').innerHTML = 'Wins: ' + wins;
-            alert('OMG you are psychic (but you already keww that, right?)');
+  guessedLetters.push(userGuess);
+  updateGuessesLeft();
+  updateGuessesSoFar();
+
+        if (guessesLeft > 0){
+            if (userGuess == letterToGuess){
+                wins++;
+                document.querySelector('#wins').innerHTML = "Wins: " + wins;
+                alert("OMG you're psychic (but you already knew that, didn't you?)");
+                reset();
+            }
+        }else if(guessesLeft == 0){
+            // Then we will loss and we'll update the html to display the loss 
+            losses++;
+            document.querySelector('#losses').innerHTML = "Losses: " + losses;
+            alert("Sorry! You're not psychic.");
+            // Then we'll call the reset. 
             reset();
         }
-    } else if (guessesRemaining === 0) {
-        losses++;
-        document.querySelector('#losses').innerHTML = 'losses: ' + losses;
-        alert("Sorry, you're not psychic");
-        reset();
-    }
-
 };
-
-
-
 
