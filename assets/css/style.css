@@ -1,10 +1,37 @@
 body {
-    
+    font-family: 'Coiny', cursive;
     background-image: url(images/topography.png);
     
 }
 
 h1 {
     font-family: 'Monofett', cursive;
-    font-size: 48px;
+    font-size: 81px;
+}
+
+.container {
+    text-align: center;
+}
+
+p {
+   
+    font-size: 24px;
+}
+
+ul {
+    list-style: none;
+}
+
+
+
+.footer push {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.copy {
+    font-size: 12px;
+    padding-left: 30px;
 }
